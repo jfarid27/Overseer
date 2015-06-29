@@ -4,7 +4,7 @@
   "description": "A javascript library to log and id chains of events.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/karma/bin/karma start"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
     "karma": "^0.12.37",
     "karma-chrome-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.5",
-    "karma-requirejs": "^0.2.2"
+    "karma-mocha-reporter": "^1.0.2",
+    "karma-requirejs": "^0.2.2",
+    "mocha": "^2.2.5"
   }
 }
