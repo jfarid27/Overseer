@@ -17,11 +17,13 @@
                     
                 mockLogger = (function(){
                     var exports = function(){ return}
-                    exports.args = {}
-                    exports.log = function(a){
-                        exports.args.save = a
+                    exports.log = function(e, cb, err){
+                        exports.log.args.event = e
+                        exports.log.args.cb = cb
+                        exports.log.args.err = err
                         return exports
                     }
+                    exports.log.args = {}
                     exports.then = function(a){
                         exports.args.then = a
                         return exports
@@ -53,14 +55,14 @@
                         expect(mockHashEvent.arg).toBe('mockEvent')
                     })
                     it('should log HashEvent result', function(){
-                        expect(mockLogger.args.save).toBe('mockHashEventResult')
+                        expect(mockLogger.log.args.event).toBe('mockHashEventResult')
                     })
-                    it("should register cb in Loggers's then function", function(){
-                        expect(mockLogger.args.then).toBe('mockCb')
+                    it("should register cb in log function", function(){
+                        expect(mockLogger.log.args.cb).toBe('mockCb')
 
                     })
-                    it("should register error in Loggers's then function", function(){
-                        expect(mockLogger.args.error).toBe('mockError')
+                    it("should register error in logfunction", function(){
+                        expect(mockLogger.log.args.err).toBe('mockError')
                     })
                 })
             })

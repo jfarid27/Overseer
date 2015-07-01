@@ -12,9 +12,8 @@
             exports.save = function(event, cb, error){
 
                 Logger
-                    .log(HashEvent(event))
-                    .then(cb)
-                    .error(error)
+                    .log(HashEvent(event), cb, error)
+
             }
 
             return exports
