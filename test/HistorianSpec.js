@@ -4,7 +4,7 @@
 
         describe('Historian', function(){
 
-            var mockApi, mockHashEvent
+            var mockHashEvent, mockLogger
             beforeEach(function(){
 
                 mockHashEvent = (function(){
@@ -15,10 +15,10 @@
                     return exports
                 })()
                     
-                mockApi = (function(){
+                mockLogger = (function(){
                     var exports = function(){ return}
                     exports.args = {}
-                    exports.save = function(a){
+                    exports.log = function(a){
                         exports.args.save = a
                         return exports
                     }
@@ -34,11 +34,11 @@
                 })()
             })
 
-            describe('when initialized with Api and HashEvent function', function(){
+            describe('when initialized with Logger and HashEvent function', function(){
 
                 var instance
                 beforeEach(function(){
-                    instance = Historian(mockApi, mockHashEvent)
+                    instance = Historian(mockLogger, mockHashEvent)
                 })
                 describe('when called with event, cb, and error function', function(){
 
@@ -52,15 +52,15 @@
                     it('should apply HashEvent to event', function(){
                         expect(mockHashEvent.arg).toBe('mockEvent')
                     })
-                    it('should save HashEvent result', function(){
-                        expect(mockApi.args.save).toBe('mockHashEventResult')
+                    it('should log HashEvent result', function(){
+                        expect(mockLogger.args.save).toBe('mockHashEventResult')
                     })
-                    it("should register cb in Api's then function", function(){
-                        expect(mockApi.args.then).toBe('mockCb')
+                    it("should register cb in Loggers's then function", function(){
+                        expect(mockLogger.args.then).toBe('mockCb')
 
                     })
-                    it("should register error in Api's then function", function(){
-                        expect(mockApi.args.error).toBe('mockError')
+                    it("should register error in Loggers's then function", function(){
+                        expect(mockLogger.args.error).toBe('mockError')
                     })
                 })
             })
