@@ -1,6 +1,6 @@
 (function(){
 
-    define(['src/Logger'], function(Historian){
+    define(['src/Logger'], function(Logger){
 
         describe('Logger', function(){
 
@@ -24,23 +24,45 @@
                     }
                     return exports
                 })()
+
+                mockRegistry = (function(){
+
+                    var exports = function(){ return}
+
+                    exports.save = function(event){
+                        exports.save.arg = event
+                        return 'registrySaveResult'
+                    }
+
+                    return exports
+                })()
             })
 
             describe('when initialized with an Api and Registry', function(){
 
-                it('should initialize registry with Api') 
-
-
+                var instance
+                beforeEach(function(){
+                    instance = Logger(mockApi, mockRegistry)
+                })
                 describe('after an event is logged', function(){
 
-                    describe('if api call is successful', function(){
-                        it('should save event to api')
-                        it('should save event to registry')
-                        it('should call given callback')
+                    var mockEvent
+                    beforeEach(function(){
+                        mockEvent = 'mockEvent'
+                        instance.log(mockEvent, 'mockCallback', 'mockError')
+                    })
+                    it('should save event to registry', function(){
+                        expect(mockRegistry.save.arg).toBe('mockEvent')
                     })
 
-                    describe('if api call fails', function(){
-                        it('should call error callback')
+                    it('should save event to api', function(){
+                        expect(mockApi.args.save).toBe('mockEvent')
+                    })
+                    it('should register callback on api', function(){
+                        expect(mockApi.args.then).toBe('mockCallback')
+                    })
+                    it('should register error on api', function(){
+                        expect(mockApi.args.error).toBe('mockError')
                     })
 
                 })
